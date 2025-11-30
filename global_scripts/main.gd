@@ -14,9 +14,15 @@ enum types {
 }
 
 func _ready() -> void:
-	if twoplayers and localcoop:
+	get_tree().scene_changed.connect(_on_scene_changed)
+
+
+func _on_scene_changed() -> void:
+	if twoplayers:
 		PLAYER2 = main.types.CIRCLE
 	if localcoop and !twoplayers:
-		printerr("Invalid game configuration.")
+		printerr("Invalid game configuration. Fixing...")
+		localcoop = false
+
 func print_warn(message: String) -> void:
 	print_rich("[color=yellow]", "WARN: ", message)

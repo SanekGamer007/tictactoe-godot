@@ -1,0 +1,164 @@
+[gd_scene load_steps=11 format=3 uid="uid://cjbbgb25onx5n"]
+
+[ext_resource type="Script" uid="uid://cehxljn1obv0f" path="res://levels/menu/button.gd" id="1_bvm7p"]
+[ext_resource type="Script" uid="uid://dmuq7mi1tewwb" path="res://levels/menu/check_box_3.gd" id="1_cnlwo"]
+[ext_resource type="Script" uid="uid://bvneu3eyr63jn" path="res://levels/menu/check_box.gd" id="1_gbx6r"]
+[ext_resource type="Script" uid="uid://caxcx63q5qe3x" path="res://levels/menu/check_box_2.gd" id="1_kfbsc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7fo35"]
+bg_color = Color(0, 0, 0, 0.5921569)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cnlwo"]
+bg_color = Color(0.12955844, 0.12955847, 0.12955844, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.0253638, 0.0253638, 0.025363795, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kfbsc"]
+bg_color = Color(0.3515629, 0.3515629, 0.35156286, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5409904, 0.54099053, 0.5409904, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gbx6r"]
+bg_color = Color(0.12955844, 0.12955847, 0.12955844, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.51718444, 0.5171845, 0.5171844, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvm7p"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2fskk"]
+bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+border_width_top = 8
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -49068.0
+offset_top = -49343.0
+offset_right = 50931.0
+offset_bottom = 50656.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7fo35")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.45490196)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 16
+theme_override_font_sizes/font_size = 64
+text = "TICTACTOE GODOT"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.5
+offset_top = -15.5
+offset_right = 23.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_cnlwo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kfbsc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gbx6r")
+theme_override_styles/focus = SubResource("StyleBoxFlat_bvm7p")
+text = "PLAY"
+script = ExtResource("1_bvm7p")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2fskk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Beatable AI"
+script = ExtResource("1_gbx6r")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox2" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Multiplayer"
+script = ExtResource("1_kfbsc")
+
+[node name="CheckBox3" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+disabled = true
+text = "LocalCoop"
+script = ExtResource("1_cnlwo")
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/CheckBox" to="PanelContainer/HBoxContainer/VBoxContainer/CheckBox" method="_on_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox2" to="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox2" method="_on_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox2" to="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox3" method="_on_check_box_2_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox3" to="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox3" method="_on_pressed"]

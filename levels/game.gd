@@ -49,7 +49,7 @@ func _on_cell_clicked(cellid: int, playernum: main.types) -> void:
 		return
 	
 	if current_turn == main.PLAYER:
-		if !main.localcoop:
+		if !main.twoplayers:
 			_set_turn(main.AI)
 			_ai_turn()
 		else:
