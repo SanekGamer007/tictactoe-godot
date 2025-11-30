@@ -1,0 +1,200 @@
+[gd_scene load_steps=11 format=3 uid="uid://bl5iul21nmu40"]
+
+[ext_resource type="PackedScene" uid="uid://dbulu1gm2ek3t" path="res://objects/cell/cell.tscn" id="1_m637p"]
+[ext_resource type="Script" uid="uid://bkdiei8g2yiec" path="res://levels/game.gd" id="1_od3m6"]
+[ext_resource type="Script" uid="uid://du687ngrxrssa" path="res://levels/button.gd" id="3_748nt"]
+[ext_resource type="Script" uid="uid://bddmo5hjvfguv" path="res://levels/restart_pop_up.gd" id="3_vhr6a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kc1m6"]
+bg_color = Color(0, 0, 0, 0.5921569)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_od3m6"]
+bg_color = Color(0, 0, 0, 0.8392157)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cnc74"]
+bg_color = Color(0.12955844, 0.12955847, 0.12955844, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.0253638, 0.0253638, 0.025363795, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vhr6a"]
+bg_color = Color(0.3515629, 0.3515629, 0.35156286, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5409904, 0.54099053, 0.5409904, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_748nt"]
+bg_color = Color(0.12955844, 0.12955847, 0.12955844, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.51718444, 0.5171845, 0.5171844, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_30w35"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_od3m6")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -49059.0
+offset_top = -49402.0
+offset_right = 50940.0
+offset_bottom = 50597.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kc1m6")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -300.0
+offset_right = 300.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="Cell1" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="Cell2" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="Cell3" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="Cell4" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="Cell5" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="Cell6" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="Cell7" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="Cell8" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="Cell9" parent="GridContainer" instance=ExtResource("1_m637p")]
+layout_mode = 2
+
+[node name="RestartPopUp" type="BoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_vhr6a")
+
+[node name="Panel" type="Panel" parent="RestartPopUp"]
+custom_minimum_size = Vector2(480, 240)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_od3m6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RestartPopUp/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -20.0
+offset_right = 33.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 64
+
+[node name="Label" type="Label" parent="RestartPopUp/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.23921569)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 16
+theme_override_font_sizes/font_size = 64
+text = "___ WON"
+
+[node name="Button" type="Button" parent="RestartPopUp/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_cnc74")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vhr6a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_748nt")
+theme_override_styles/focus = SubResource("StyleBoxFlat_30w35")
+text = "RESTART"
+script = ExtResource("3_748nt")
+
+[connection signal="pressed" from="RestartPopUp/Panel/VBoxContainer/Button" to="RestartPopUp/Panel/VBoxContainer/Button" method="_on_pressed"]
