@@ -31,6 +31,8 @@ func set_move(newtype: main.types):
 	$TextureRect.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
 	if newtype == main.types.CROSS:
 		$TextureRect.texture = Cross
-	else:
+	elif newtype == main.types.CIRCLE:
 		$TextureRect.texture = Circle
+	else:
+		$TextureRect.texture = null
 	type = newtype

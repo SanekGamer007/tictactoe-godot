@@ -36,7 +36,6 @@ func _ready() -> void:
 	for i: Cell in $GridContainer.get_children():
 		i.connect("clicked", _on_cell_clicked)
 		board_cells.append(i)
-	current_turn = main.types.CROSS
 	if main.gamemode == main.gamemodes.AI:
 		if main.PLAYER == main.types.CIRCLE:
 			_ai_turn()
@@ -55,7 +54,7 @@ func _ready() -> void:
 func _network_set_player(clientype: main.types, hostype: main.types) -> void:
 	main.PLAYER = clientype
 	main.PLAYER2 = hostype
-	_set_current_turn(main.types.CROSS)
+	_set_current_turn(hostype)
 	for i in board_cells:
 		i.current_turn = clientype
 
