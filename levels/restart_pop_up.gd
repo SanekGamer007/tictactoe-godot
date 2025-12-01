@@ -5,10 +5,12 @@ var crosseswho: String = "YOU"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_parent().gameend.connect(_on_gameend)
+	if main.AI == main.types.CROSS:
+		crosseswho = "AI"
+		circleswho = "YOU"
 	if main.twoplayers:
 		circleswho = "PLAYER TWO"
 		crosseswho = "PLAYER ONE"
-
 
 func _on_gameend(whowon: int) -> void:
 	match whowon:

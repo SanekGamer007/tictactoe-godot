@@ -22,6 +22,8 @@ func _ready() -> void:
 	for i: Cell in $GridContainer.get_children():
 		i.connect("clicked", _on_cell_clicked)
 		board_cells.append(i)
+	if main.AI == main.types.CROSS:
+		_ai_turn()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -134,6 +136,7 @@ func _ai_turn() -> void:
 
 func minimax(is_maxing: bool, board_copy: Array, depth: int, alpha: int, beta: int) -> int:
 	var winner: int = _check_winning_condition(board_copy)
+	
 	if winner != -1:
 		if winner == -2:
 			return 0 # DRAW
@@ -146,14 +149,13 @@ func minimax(is_maxing: bool, board_copy: Array, depth: int, alpha: int, beta: i
 	for i in board_copy.size(): # find all possible moves
 		if board_copy[i] == 0:
 			available_moves.append(i)
-	#print(depth)
 	if is_maxing == true:
 		for i in available_moves: # do every possible move in a board copy
 			board_copy.set(i, main.AI)
 			var eval = minimax(!is_maxing, board_copy, depth + 1, alpha, beta)
 			board_copy.set(i, main.types.NULL)
 			alpha = max(eval, alpha)
-			if beta <= alpha:
+			if beta <= alpha: # alpha beta shit optimization ig idk
 				break
 		return(alpha)
 	else:
@@ -162,7 +164,7 @@ func minimax(is_maxing: bool, board_copy: Array, depth: int, alpha: int, beta: i
 			var eval = minimax(!is_maxing, board_copy, depth + 1, alpha, beta)
 			board_copy.set(i, main.types.NULL)
 			beta = min(eval, beta)
-			if main.beatable_ai == true:
+			if main.beatable_ai == true: 
 				if randi() % 2 == 1:
 					if alpha <= beta:
 						break
@@ -170,6 +172,6 @@ func minimax(is_maxing: bool, board_copy: Array, depth: int, alpha: int, beta: i
 					if beta <= alpha:
 						break
 			else:
-				if beta <= alpha:
+				if beta <= alpha: # alpha beta shit optimization ig idk
 					break
 		return(beta)
