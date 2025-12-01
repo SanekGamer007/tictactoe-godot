@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://cjbbgb25onx5n"]
+[gd_scene load_steps=12 format=3 uid="uid://cjbbgb25onx5n"]
 
-[ext_resource type="Script" uid="uid://cehxljn1obv0f" path="res://levels/menu/button.gd" id="1_bvm7p"]
-[ext_resource type="Script" uid="uid://dmuq7mi1tewwb" path="res://levels/menu/check_box_3.gd" id="1_cnlwo"]
-[ext_resource type="Script" uid="uid://bvneu3eyr63jn" path="res://levels/menu/check_box.gd" id="1_gbx6r"]
-[ext_resource type="Script" uid="uid://caxcx63q5qe3x" path="res://levels/menu/check_box_2.gd" id="1_kfbsc"]
+[ext_resource type="Script" uid="uid://cehxljn1obv0f" path="res://levels/menu/button.gd" id="1_3cyc0"]
+[ext_resource type="Script" uid="uid://ckmxaqcqo4wg0" path="res://levels/menu/server.gd" id="2_p0td0"]
+[ext_resource type="Script" uid="uid://cjgygl6qqs8cj" path="res://levels/menu/client.gd" id="3_p0td0"]
+[ext_resource type="Script" uid="uid://cvw3ihtf10vw2" path="res://levels/menu/item_list.gd" id="4_4wbge"]
+[ext_resource type="Script" uid="uid://e60gp14ft8en" path="res://levels/menu/player_toggle.gd" id="5_3cyc0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7fo35"]
 bg_color = Color(0, 0, 0, 0.5921569)
@@ -101,11 +102,11 @@ text = "TICTACTOE GODOT"
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.3
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 0.3
 offset_left = -23.5
 offset_top = -15.5
 offset_right = 23.5
@@ -118,7 +119,53 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_kfbsc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gbx6r")
 theme_override_styles/focus = SubResource("StyleBoxFlat_bvm7p")
 text = "PLAY"
-script = ExtResource("1_bvm7p")
+script = ExtResource("1_3cyc0")
+
+[node name="Server" type="Button" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 138.0
+offset_right = 82.0
+offset_bottom = 169.0
+text = "Server"
+script = ExtResource("2_p0td0")
+
+[node name="LineEdit" type="LineEdit" parent="Server"]
+layout_mode = 0
+offset_left = 66.0
+offset_top = -1.0
+offset_right = 134.5625
+offset_bottom = 30.0
+placeholder_text = "port"
+alignment = 1
+
+[node name="Client" type="Button" parent="."]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 183.0
+offset_right = 74.0
+offset_bottom = 214.0
+text = "Client"
+script = ExtResource("3_p0td0")
+
+[node name="ip" type="LineEdit" parent="Client"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 2.0
+offset_right = 196.0
+offset_bottom = 33.0
+text = "127.0.0.1"
+placeholder_text = "ip"
+alignment = 1
+
+[node name="port" type="LineEdit" parent="Client"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 32.0
+offset_right = 156.5625
+offset_bottom = 63.0
+placeholder_text = "port"
+alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(0, 120)
@@ -131,34 +178,27 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_2fskk")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+[node name="ItemList" type="ItemList" parent="PanelContainer/BoxContainer"]
+custom_minimum_size = Vector2(240, 100)
 layout_mode = 2
+size_flags_vertical = 4
+item_count = 3
+item_0/text = "AI"
+item_1/text = "MULTIPLAYER"
+item_2/text = "LOCALCOOP"
+script = ExtResource("4_4wbge")
 
-[node name="CheckBox" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="PlayerToggle" type="CheckBox" parent="PanelContainer/BoxContainer"]
 layout_mode = 2
-text = "Beatable AI"
-script = ExtResource("1_gbx6r")
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="CheckBox2" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Multiplayer"
-script = ExtResource("1_kfbsc")
-
-[node name="CheckBox3" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-disabled = true
-text = "LocalCoop"
-script = ExtResource("1_cnlwo")
+text = "Player2"
+script = ExtResource("5_3cyc0")
 
 [connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/CheckBox" to="PanelContainer/HBoxContainer/VBoxContainer/CheckBox" method="_on_pressed"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox2" to="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox2" method="_on_pressed"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox2" to="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox3" method="_on_check_box_2_pressed"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox3" to="PanelContainer/HBoxContainer/VBoxContainer2/CheckBox3" method="_on_pressed"]
+[connection signal="pressed" from="Server" to="Server" method="_on_pressed"]
+[connection signal="pressed" from="Client" to="Client" method="_on_pressed"]
+[connection signal="item_selected" from="PanelContainer/BoxContainer/ItemList" to="PanelContainer/BoxContainer/ItemList" method="_on_item_selected"]
+[connection signal="pressed" from="PanelContainer/BoxContainer/PlayerToggle" to="PanelContainer/BoxContainer/PlayerToggle" method="_on_pressed"]

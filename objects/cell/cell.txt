@@ -7,7 +7,7 @@ var Circle: Texture = preload("res://objects/cell/circle.png")
 
 var current_turn: main.types = main.PLAYER
 var type: main.types
-signal clicked(cellid: int)
+signal clicked(cellid: int, playernum: main.types)
 
 func _on_mouse_entered() -> void:
 	if type == main.types.NULL:
