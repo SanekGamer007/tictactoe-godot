@@ -1,10 +1,11 @@
 extends Control
 class_name game
 @warning_ignore("int_as_enum_without_cast") # typing nine main.types.null would be too long.
-var board_data: Array[main.types] = \
-[0, 0, 0, \
- 0, 0, 0, \
- 0, 0, 0]
+var board_data: Array[main.types] = [
+	0, 0, 0,
+	0, 0, 0,
+	0, 0, 0,
+]
 
 const winning_lines = [
 	[0,1,2], [3,4,5], [6,7,8], # horizontal
@@ -17,7 +18,6 @@ var current_turn: main.types = main.types.CROSS
 
 signal gameend(whowon: int)
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for i: Cell in $GridContainer.get_children():
 		i.connect("clicked", _on_cell_clicked)
@@ -25,15 +25,11 @@ func _ready() -> void:
 	if main.AI == main.types.CROSS:
 		_ai_turn()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
-
 func _on_cell_clicked(cellid: int, playernum: main.types) -> void:
 	if gameended:
 		return
 	if !main.localcoop and current_turn != main.PLAYER and playernum == main.PLAYER:
-		return
+		return # simplified: IF localcoop is not turned on and its not the player1 turn and the player1 clicked on a cell do nothing.
 	if _set_type(cellid, current_turn) == false:
 		return
 	var winner: int =_check_winning_condition(board_data)
@@ -65,9 +61,9 @@ func _set_type(cellid: int, newtype: main.types) -> bool:
 	if cell.type != main.types.NULL:
 		main.print_warn(str(cell.name, " type is already not null, ignoring..."))
 		return false
-		
 	if newtype == main.types.NULL:
-		printerr("Null cannot be set as a type.") # might change later.
+		printerr("Null cannot be set as a type.") # safety stuff.
+		return false
 		
 	cell.get_node("TextureRect").self_modulate = Color(1.0, 1.0, 1.0, 1.0)
 	
@@ -76,19 +72,21 @@ func _set_type(cellid: int, newtype: main.types) -> bool:
 	if newtype == main.types.CROSS:
 		cell.get_node("TextureRect").texture = cell.Cross
 		cell.type = newtype
+
 	elif newtype == main.types.CIRCLE:
-		cell.get_node("TextureRect").texture = cell.Circle
-		cell.type = newtype
+		cell.get_node("TextureRect").texture = cell.Circle #probably could use a signal or a function instead
+		cell.type = newtype                                #but this works too.
+
 	return true
 
 func _set_turn(type: main.types) -> void:
 	if !main.localcoop:
 		if type != main.PLAYER:
 			for i: Cell in board_cells:
-				i.current_turn = main.types.NULL
+				i.current_turn = main.types.NULL 
 		else:
-			for i: Cell in board_cells:
-				i.current_turn = type
+			for i: Cell in board_cells: #If its not a players turn and localcoop is disabled, tell all cells
+				i.current_turn = type   #to not display anything on hover. (shitty way but it works™)   
 	else:
 		for i: Cell in board_cells:
 			i.current_turn = type
@@ -104,7 +102,6 @@ func _check_winning_condition(board: Array) -> int:
 	if not board.has(main.types.NULL):
 		return -2 # draw
 	return -1 # nothing ever happens
-
 
 func _ai_turn() -> void:
 	var board_copy = board_data.duplicate()
@@ -149,6 +146,8 @@ func minimax(is_maxing: bool, board_copy: Array, depth: int, alpha: int, beta: i
 	for i in board_copy.size(): # find all possible moves
 		if board_copy[i] == 0:
 			available_moves.append(i)
+	if main.beatable_ai == true and randi() % 10 == 1: # AI Crack™ to make it be able to lose.
+		return(randi_range(-10, 10))
 	if is_maxing == true:
 		for i in available_moves: # do every possible move in a board copy
 			board_copy.set(i, main.AI)
@@ -164,14 +163,6 @@ func minimax(is_maxing: bool, board_copy: Array, depth: int, alpha: int, beta: i
 			var eval = minimax(!is_maxing, board_copy, depth + 1, alpha, beta)
 			board_copy.set(i, main.types.NULL)
 			beta = min(eval, beta)
-			if main.beatable_ai == true: 
-				if randi() % 2 == 1:
-					if alpha <= beta:
-						break
-				else:
-					if beta <= alpha:
-						break
-			else:
-				if beta <= alpha: # alpha beta shit optimization ig idk
-					break
+			if beta <= alpha: # alpha beta shit optimization ig idk
+				break
 		return(beta)

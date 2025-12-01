@@ -15,35 +15,43 @@ var board_cells: Array[Cell]
 var gameended: bool = false
 var current_turn: main.types = main.types.CROSS
 
+signal gameend(whowon: int)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for i: Cell in $GridContainer.get_children():
 		i.connect("clicked", _on_cell_clicked)
 		board_cells.append(i)
+	if main.AI == main.types.CROSS:
+		_ai_turn()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
 
-func _on_cell_clicked(cellid: int, playernum: int) -> void:
+func _on_cell_clicked(cellid: int, playernum: main.types) -> void:
 	if gameended:
 		return
-	if !main.localcoop and current_turn != main.PLAYER and playernum == 1:
+	if !main.localcoop and current_turn != main.PLAYER and playernum == main.PLAYER:
 		return
 	if _set_type(cellid, current_turn) == false:
 		return
 	var winner: int =_check_winning_condition(board_data)
 	if winner != -1:
 		if winner == -2:
+			gameend.emit(0)
 			print("draw")
 		elif winner == 1:
+			gameend.emit(1)
 			print("circle")
 		elif winner == 2:
+			gameend.emit(2)
 			print("cross")
 		gameended = true
+		return
 	
 	if current_turn == main.PLAYER:
-		if !main.localcoop:
+		if !main.twoplayers:
 			_set_turn(main.AI)
 			_ai_turn()
 		else:
@@ -93,18 +101,18 @@ func _check_winning_condition(board: Array) -> int:
 		var c = board[line[2]]
 		if a != main.types.NULL and a == b and b == c:
 			return a # winner
-	if not board_data.has(main.types.NULL):
+	if not board.has(main.types.NULL):
 		return -2 # draw
 	return -1 # nothing ever happens
 
 
 func _ai_turn() -> void:
-	print("ai_scary_stuff")
-	#_on_cell_clicked(2, 2)
 	var board_copy = board_data.duplicate()
-	var best_score: int = int(-INF)
-	var best_move_index: int = -1
+	var best_score: int = -1000
+	var best_moves: Array
 	var possible_moves: Array
+	const ALPHA: int = -1000
+	const BETA: int = 1000
 	
 	for i in board_copy.size(): # find all possible moves
 		if board_copy[i] == 0:
@@ -112,22 +120,23 @@ func _ai_turn() -> void:
 	
 	for i in possible_moves:
 		board_copy.set(i, main.AI)
-		var score = minimax(false, board_copy, 0)
-		print(score)
+		var score = minimax(false, board_copy, 0, ALPHA, BETA)
 		board_copy.set(i, main.types.NULL)
 		if score > best_score:
 			best_score = score
-			best_move_index = i
-	if best_move_index != -1:
-		_on_cell_clicked(best_move_index + 1, 2)
+			best_moves = [i]
+		elif score == best_score:
+			best_moves.append(i)
+	print(best_moves.size())
+	if best_moves.size() > 0:
+		var random_move = best_moves.pick_random()
+		_on_cell_clicked(random_move + 1, main.AI)
 	else:
 		printerr("AI Has not found any moves. This should NOT be possible.")
-	print('asds')
 
-func minimax(is_maxing: bool, board_copy: Array, depth: int) -> int:
+func minimax(is_maxing: bool, board_copy: Array, depth: int, alpha: int, beta: int) -> int:
 	var winner: int = _check_winning_condition(board_copy)
-	var max_eval: int = int(-INF)
-	var min_eval: int = int(INF)
+	
 	if winner != -1:
 		if winner == -2:
 			return 0 # DRAW
@@ -140,18 +149,29 @@ func minimax(is_maxing: bool, board_copy: Array, depth: int) -> int:
 	for i in board_copy.size(): # find all possible moves
 		if board_copy[i] == 0:
 			available_moves.append(i)
-	#print(depth)
 	if is_maxing == true:
 		for i in available_moves: # do every possible move in a board copy
 			board_copy.set(i, main.AI)
-			var eval = minimax(!is_maxing, board_copy, depth + 1)
+			var eval = minimax(!is_maxing, board_copy, depth + 1, alpha, beta)
 			board_copy.set(i, main.types.NULL)
-			max_eval = max(eval, max_eval)
-		return(max_eval)
+			alpha = max(eval, alpha)
+			if beta <= alpha: # alpha beta shit optimization ig idk
+				break
+		return(alpha)
 	else:
 		for i in available_moves: # do every possible move in a board copy
 			board_copy.set(i, main.PLAYER)
-			var eval = minimax(!is_maxing, board_copy, depth + 1)
+			var eval = minimax(!is_maxing, board_copy, depth + 1, alpha, beta)
 			board_copy.set(i, main.types.NULL)
-			min_eval = min(eval, min_eval)
-		return(min_eval)
+			beta = min(eval, beta)
+			if main.beatable_ai == true: 
+				if randi() % 2 == 1:
+					if alpha <= beta:
+						break
+				else:
+					if beta <= alpha:
+						break
+			else:
+				if beta <= alpha: # alpha beta shit optimization ig idk
+					break
+		return(beta)

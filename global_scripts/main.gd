@@ -2,10 +2,9 @@ extends Node
 var twoplayers: bool = false
 var localcoop: bool = false
 var beatable_ai: bool = false
-var PLAYER = main.types.CROSS
-var PLAYER2
-var AI = main.types.CIRCLE
-
+var PLAYER: types = main.types.CROSS
+var PLAYER2: types
+var AI: types = main.types.CIRCLE
 
 enum types {
 	NULL,
@@ -16,12 +15,11 @@ enum types {
 func _ready() -> void:
 	get_tree().scene_changed.connect(_on_scene_changed)
 
-
 func _on_scene_changed() -> void:
 	if twoplayers:
 		PLAYER2 = main.types.CIRCLE
 	if localcoop and !twoplayers:
-		printerr("Invalid game configuration. Fixing...")
+		printerr("Invalid game config. Fixing...")
 		localcoop = false
 
 func print_warn(message: String) -> void:
